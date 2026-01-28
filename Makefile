@@ -1,0 +1,31 @@
+CC        := gcc
+CFLAGS    := -Wall -Wextra -O2
+
+BIN_PATH := bin
+OBJ_PATH := obj
+SRC_PATH := src
+
+TARGET_NAME := main
+TARGET := $(BIN_PATH)/$(TARGET_NAME)
+
+SRC := $(wildcard $(SRC_PATH)/*.c)
+OBJ := $(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRC))
+
+.PHONY: all clean distclean
+
+all: $(TARGET)
+
+$(TARGET): $(OBJ) | $(BIN_PATH)
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(OBJ_PATH)/%.o: $(SRC_PATH)/%.c | $(OBJ_PATH)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+
+$(BIN_PATH) $(OBJ_PATH):
+	mkdir -p $@
+
+clean:
+	rm -f $(OBJ)
+
+distclean: clean
+	rm -f $(TARGET)
