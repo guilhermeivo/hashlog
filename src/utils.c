@@ -1,4 +1,4 @@
-#include "utils.h"
+#include <hashlog/utils.h>
 
 size_t get_places_amount(int value) {
     return floor(log10(abs(value))) + 1;

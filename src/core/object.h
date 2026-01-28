@@ -3,12 +3,11 @@
 
 #include <stddef.h>
 #include <stdio.h>
-#include <sys/stat.h>
-#include <unistd.h>
+
+#include <hashlog/utils.h>
 
 #include "core.h"
 #include "hash.h"
-#include "../utils.h"
 
 #define OBJECT_FOLDER "objects"
 
