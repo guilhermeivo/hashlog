@@ -1,4 +1,4 @@
-#include "hash.h"
+#include <hashlog/core/hash.h>
 
 /**
  * https://wiki.openssl.org/index.php/EVP_Message_Digests

@@ -1,31 +1,44 @@
+#include <stdio.h>
 #include <string.h>
 
-#include "core/object.h"
+#include <hashlog/builtin.h>
 
-int main() {
-    char *content = "Meu conteudo!!";
-    hl_object_t object = {
-        .type = BLOB,
-        .content_size = 15,
-        .content = &content
-    };
-    init_object(&object);
+typedef struct {
+	const char* command;
+	int (*function)(int, const char**);
+} hl_command_struct_t;
 
-    size_t buffer_length = object.size;
-    char* buffer = (char*) malloc(buffer_length * sizeof(char));
+static hl_command_struct_t commands[] = {
+    { "hash-object", &command_hash_object },
+    { "cat-file", &command_cat_file }
+};
 
-    size_t size = build_object(&object, &buffer, buffer_length);
+static hl_command_struct_t* get_builtin(const char* str) {
+    for (size_t i = 0; i < sizeof(commands) / sizeof(hl_command_struct_t); i++) {
+        if (!strcmp(str, commands[i].command)) {
+            return &(commands[i]);
+        }
+    }
+    return NULL;
+}
 
-    unsigned int hash_size = SHA256_SIZE;
-    unsigned char* hash;
-    char hex[2 * hash_size + 1];
+int main(int argc, const char** argv) {
+    const char* command;
 
-    create_hash(&buffer, size, &hash, &hash_size);
-    bytes_to_hex(hash, hash_size, hex);
+    argv++;
+    argc--;
 
-    write_object(hex, &buffer);
+    if (!argc) {
+        return 1;
+    }
 
-    free(buffer);
-
-    return 0;
+    command = argv[0];
+    
+    hl_command_struct_t* builtin = get_builtin(command);
+    if (builtin) {
+        builtin->function(argc, argv);
+        return 0;
+    }
+    
+    return 1;
 }

@@ -1,4 +1,4 @@
-#include "object.h"
+#include <hashlog/core/object.h>
 
 const keyvalue_t string_type[] = {
     { .key = BLOB, .value = "blob" },
