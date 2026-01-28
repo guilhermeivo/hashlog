@@ -1,5 +1,6 @@
 CC        := gcc
 CFLAGS    := -Wall -Wextra -O2
+LIBS      := -lcrypto -lm
 
 BIN_PATH := bin
 OBJ_PATH := obj
@@ -8,7 +9,7 @@ SRC_PATH := src
 TARGET_NAME := main
 TARGET := $(BIN_PATH)/$(TARGET_NAME)
 
-SRC := $(wildcard $(SRC_PATH)/*.c)
+SRC := $(shell find $(SRC_PATH) -name '*.c')
 OBJ := $(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRC))
 
 .PHONY: all clean distclean
@@ -16,10 +17,10 @@ OBJ := $(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRC))
 all: $(TARGET)
 
 $(TARGET): $(OBJ) | $(BIN_PATH)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c | $(OBJ_PATH)
-	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(BIN_PATH) $(OBJ_PATH):
 	mkdir -p $@
