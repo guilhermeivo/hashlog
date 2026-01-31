@@ -1,19 +1,52 @@
 #include <hashlog/builtin.h>
 
-#include <stdio.h>
-
-static const char* path = NULL;
-static const char* type = NULL;
-
 int command_cat_file(int argc, const char** argv) {
-    static hl_option_t options[] = {
-        OPT_STRING('p', "path", &path),
-        OPT_STRING('t', "type", &type)
+    static const char* path = NULL;
+    static const char* type = NULL;
+    static char help = 0; 
+
+    hl_object_t object = {0};
+
+    static const hl_option_t options[] = {
+        OPT_STRING('p', "path", &path, "Print the <object> based on its type."),
+        OPT_STRING('t', "type", &type, "Show the object type identified by <object>."),
+        OPT_BOOLEAN('h', "help", &help, "Show this help message."),
     };
 
-    parse_options(options, argc - 1, argv + 1);
+    if (parse_options(options, ARRAY_SIZE(options), argc - 1, argv + 1) < 0) {
+        goto out;
+    }
 
-    free_options(options);
-    
-    return 0;
+    // command help in cat-file
+    if (help) {
+        print_command_help(argv[-1], options, ARRAY_SIZE(options));
+        goto out;
+    }
+
+    // command path in cat-file
+    if (path) {
+        object = read_object(path);
+        printf("%s %ld %s\n", object_string_type(object.type), object.content_size, object.content);
+
+        goto out;
+    }
+
+    // command type in cat-file
+    if (type) {
+        object = read_object(type);
+        printf("%s\n", object_string_type(object.type));
+
+        goto out;
+    }
+
+    out:
+        if (object.content) {
+            free(object.content);
+            object.content = NULL;
+        }
+        free_options(options, ARRAY_SIZE(options));
+        return 0;
 }
+
+COMMAND_INFO(usage, "cat-file (-p | -t) <object>")
+COMMAND_INFO(description, "Content or other properties of one or more objects.")

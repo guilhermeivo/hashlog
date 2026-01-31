@@ -7,7 +7,7 @@ int command_hash_object(int argc, const char** argv) {
     hl_object_t object = {
         .type = BLOB,
         .content_size = 15,
-        .content = &content
+        .content = content
     };
     init_object(&object);
 
@@ -25,8 +25,14 @@ int command_hash_object(int argc, const char** argv) {
 
     write_object(hex, &buffer);
 
-    free(buffer);
-    free(hash);
+    if (buffer) {
+        free(buffer);
+        buffer = NULL;
+    }
+    if (hash) {
+        free(hash);
+        hash = NULL;
+    }
 
     return 0;
 }

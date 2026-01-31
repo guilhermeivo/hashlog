@@ -3,9 +3,10 @@
 #define FILENAME "/tmp/opt_string_temp.txt"
 #define MAX_SIZE 1024
 
-int parse_options(hl_option_t* options, int argc, const char** argv) {
+int parse_options(hl_option_t options[], size_t options_length, int argc, const char** argv) {
+    int amount_options_validate = 0;
     for (int i = 0; i < argc; i++) {
-        for (size_t j = 0; j < sizeof(*options) / sizeof(hl_option_t); j++) {
+        for (size_t j = 0; j < options_length; j++) {
             if (!strcmp(argv[i], (char[3]){'-', options[j].short_name, '\0'})) {
                 switch (options[j].type) {
                 case OPTION_STRING:
@@ -35,24 +36,29 @@ int parse_options(hl_option_t* options, int argc, const char** argv) {
                         fclose(fp);
                         remove(FILENAME);
                     }
+                    amount_options_validate += 1;
+                    break;
+                case OPTION_BOOLEAN:
+                    *((char*) options[j].value) = 1;
+                    amount_options_validate += 1;
                     break;
                 default:
-                    return 1;
                     break;
                 }
                 break;
             }
         }
     }
-    return 0;
+    return amount_options_validate;
 }
 
-void free_options(hl_option_t* options) {
-    for (size_t j = 0; j < sizeof(*options) / sizeof(hl_option_t); j++) {
+void free_options(const hl_option_t* options, size_t options_length) {
+    for (size_t j = 0; j < options_length; j++) {
         switch (options[j].type) {
         case OPTION_STRING:
             if (*((char**) options[j].value)) {
                 free(*((char**) options[j].value));
+                *((char**) options[j].value) = NULL;
             }
             break;
         

@@ -1,6 +1,7 @@
 CC        ?= gcc
 CFLAGS    := -Wall -Wextra -O2 -I./include
 LIBS      := -lcrypto -lm
+LDFLAGS  += -Wl,-T,commandinfo.ld
 
 BIN_PATH := bin
 OBJ_PATH := obj
@@ -17,7 +18,7 @@ OBJ := $(patsubst $(SRC_PATH)/%.c,$(OBJ_PATH)/%.o,$(SRC))
 all: $(TARGET)
 
 $(TARGET): $(OBJ) | $(BIN_PATH)
-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS) $(LIBS)
 
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c
 	mkdir -p $(dir $@)
