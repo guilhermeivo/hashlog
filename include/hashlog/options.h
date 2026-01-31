@@ -53,7 +53,7 @@ typedef struct {
     .description = (h)              \
 }
 
-int parse_options(hl_option_t options[], size_t options_length, int argc, const char** argv);
+int parse_options(const hl_option_t* options, size_t options_length, int argc, const char** argv);
 void free_options(const hl_option_t* options, size_t options_length);
 
 #endif

@@ -18,3 +18,16 @@ void bytes_to_hex(const unsigned char* bytes, size_t len, char* hex) {
 void ensure_dir(const char* dir) {
     mkdir(dir, 0755);
 }
+
+__attribute__((noreturn)) void die(const char *fmt, ...) {
+    va_list ap;
+
+    fprintf(stderr, "fatal: ");
+
+    va_start(ap, fmt);
+    vfprintf(stderr, fmt, ap);
+    va_end(ap);
+
+    fputc('\n', stderr);
+    exit(128);
+}

@@ -12,7 +12,7 @@ void print_command_help(const char *cmd, const hl_option_t *options, size_t opti
     printf("\n");
     printf(BOLD("OPTIONS") "\n");
     for (size_t i = 0; i < options_len; i++) {
-        printf("  %-3s %-14s %s\n",
+        printf("\t%-3s %-14s %s\n",
             (char[3]){'-', options[i].short_name, '\0'},
             options[i].long_name,
             options[i].description);

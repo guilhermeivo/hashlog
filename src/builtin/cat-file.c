@@ -17,13 +17,11 @@ int command_cat_file(int argc, const char** argv) {
         goto out;
     }
 
-    // command help in cat-file
     if (help) {
         print_command_help(argv[-1], options, ARRAY_SIZE(options));
         goto out;
     }
 
-    // command path in cat-file
     if (path) {
         object = read_object(path);
         printf("%s %ld %s\n", object_string_type(object.type), object.content_size, object.content);
@@ -31,7 +29,6 @@ int command_cat_file(int argc, const char** argv) {
         goto out;
     }
 
-    // command type in cat-file
     if (type) {
         object = read_object(type);
         printf("%s\n", object_string_type(object.type));

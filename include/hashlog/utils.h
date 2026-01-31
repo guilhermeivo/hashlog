@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <stdio.h>
+#include <stdarg.h>
 
 #define CONCAT2(a, b) a##b
 #define CONCAT(a, b) CONCAT2(a, b)
@@ -18,5 +20,7 @@
 size_t get_places_amount(int value);
 void bytes_to_hex(const unsigned char* bytes, size_t len, char* hex);
 void ensure_dir(const char* dir);
+
+__attribute__((noreturn)) void die(const char *fmt, ...);
 
 #endif

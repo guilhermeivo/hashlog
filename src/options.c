@@ -3,7 +3,7 @@
 #define FILENAME "/tmp/opt_string_temp.txt"
 #define MAX_SIZE 1024
 
-int parse_options(hl_option_t options[], size_t options_length, int argc, const char** argv) {
+int parse_options(const hl_option_t options[], size_t options_length, int argc, const char** argv) {
     int amount_options_validate = 0;
     for (int i = 0; i < argc; i++) {
         for (size_t j = 0; j < options_length; j++) {
