@@ -90,22 +90,17 @@ void free_options(const hl_option_t* options, size_t options_length) {
         hl_option_t option = options[j];
         switch (option.type) {
         case OPTION_STRING:
-            if (*((char**) option.value)) {
-                free(*((char**) option.value));
-                *((char**) option.value) = NULL;
-            }
+            SECURE_FREE(*((char**) option.value))
             break;
         case OPTION_MULTIPLE_STRING:
             char*** value = ((char***) option.value);
             if (*value) {
                 size_t size = 0;
                 while ((*value)[size]) {
-                    free((*value)[size]);
-                    (*value)[size] = NULL;
+                    SECURE_FREE((*value)[size]);
                     size++;
                 }
-                free(*value);
-                *value = NULL;
+                SECURE_FREE(*value);
             }
         default:
             break;

@@ -37,10 +37,7 @@ int command_cat_file(int argc, const char** argv) {
     }
 
     out:
-        if (object.content) {
-            free(object.content);
-            object.content = NULL;
-        }
+        SECURE_FREE(object.content);
         free_options(options, ARRAY_SIZE(options));
         return 0;
 }

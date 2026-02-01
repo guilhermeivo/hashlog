@@ -14,6 +14,12 @@
 
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 
+#define SECURE_FREE(x) \
+    if (x) { \
+        free(x); \
+        (x) = NULL; \
+    } \
+
 #define BOLD(v) "\033[1m" v "\033[0m"
 #define UNDERLINE(v) "\033[4m" v "\033[0m"
 

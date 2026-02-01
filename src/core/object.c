@@ -78,8 +78,7 @@ hl_object_t read_object(const char* filename) {
 
     size_t read = fread(object.content, 1, object.content_size, fptr);
     if (read != object.content_size) {
-        free(object.content);
-        object.content = NULL;
+        SECURE_FREE(object.content);
         
         goto finish;
     }

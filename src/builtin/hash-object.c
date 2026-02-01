@@ -60,14 +60,8 @@ int command_hash_object(int argc, const char** argv) {
     printf("%s\n", hex);
 
     out:
-        if (buffer) {
-            free(buffer);
-            buffer = NULL;
-        }
-        if (hash) {
-            free(hash);
-            hash = NULL;
-        }
+        SECURE_FREE(buffer);
+        SECURE_FREE(hash);
         free_options(options, ARRAY_SIZE(options));
         return 0;
 }

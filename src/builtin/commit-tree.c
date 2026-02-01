@@ -35,24 +35,19 @@ int command_commit_tree(int argc, const char** argv) {
     }
 
     if (parent) {
+        size_t size = 0;
+        while (parent[size]) {
+            parent_object = read_object(parent[size]);
+            if (parent_object.type != COMMIT) {
+                die("The hash for a parent commit is not a parent commit.\n\t%s", parent[size]);
+            }
+            size++;
+        }
     }
-        
-    // if (parent) {
-    //     parent_object = read_object(parent);
-    //     if (parent_object.type != COMMIT) {
-    //         die("The hash for a parent commit is not a parent commit.");
-    //     }
-    // }
 
     out:
-        if (tree_object.content) {
-            free(tree_object.content);
-            tree_object.content = NULL;
-        }
-        if (parent_object.content) {
-            free(parent_object.content);
-            parent_object.content = NULL;
-        }
+        SECURE_FREE(tree_object.content);
+        SECURE_FREE(parent_object.content);
         free_options(options, ARRAY_SIZE(options));
         return 0;
 }
