@@ -1,7 +1,8 @@
 #ifndef HASHLOG_OPTIONS_H
 #define HASHLOG_OPTIONS_H
 
-#include "hashlog/core/config.h"
+#include <hashlog/core/config.h>
+#include <hashlog/utils.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -10,7 +11,8 @@ enum parse_opt_type {
 	OPTION_STRING,
 	OPTION_INTEGER,
 	OPTION_FILENAME,
-    OPTION_BOOLEAN
+    OPTION_BOOLEAN,
+    OPTION_MULTIPLE_STRING
 };
 
 typedef struct {
@@ -23,6 +25,14 @@ typedef struct {
 
 #define OPT_STRING(s, l, v, h) {    \
     .type = OPTION_STRING,          \
+    .short_name = (s),              \
+    .long_name = (l),               \
+    .value = (v),                   \
+    .description = (h)              \
+}
+
+#define OPT_MULTIPLE_STRING(s, l, v, h) {    \
+    .type = OPTION_MULTIPLE_STRING, \
     .short_name = (s),              \
     .long_name = (l),               \
     .value = (v),                   \

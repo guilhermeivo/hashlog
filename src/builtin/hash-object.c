@@ -34,7 +34,11 @@ int command_hash_object(int argc, const char** argv) {
         object.type = BLOB;
     }
 
-    if (write) {
+    if (object.type < 0) {
+        die("Incorrect type for the object.");
+    }
+
+    if (write && strlen(write) > 0) {
         object.content = write;
         object.content_size = strlen(write);
     } else {
@@ -52,6 +56,8 @@ int command_hash_object(int argc, const char** argv) {
     bytes_to_hex(hash, hash_size, hex);
 
     write_object(hex, &buffer);
+
+    printf("%s\n", hex);
 
     out:
         if (buffer) {

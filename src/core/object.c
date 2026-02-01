@@ -24,10 +24,15 @@ void init_object(hl_object_t* object) {
 }
 
 size_t build_object(const hl_object_t* object, char** buffer, const size_t buffer_size) {
-    return snprintf(*buffer, buffer_size, "%s %ld %s\n", object_string_type(object->type), object->content_size, object->content);
+    return snprintf(*buffer, buffer_size, 
+        "%s %ld%c%s\n", 
+        object_string_type(object->type), 
+        object->content_size, 
+        object->type != BLOB ? '\n' : ' ',
+        object->content);
 }
 
-int write_object(const char* filename, char** buffer) {
+int write_object(const char* filename, char** content) {
     char folder[124];
 
     ensure_dir(ROOT_FOLDER);
@@ -44,7 +49,7 @@ int write_object(const char* filename, char** buffer) {
     if ((fptr = fopen(folder, "wb")) == NULL) {
         return 1;
     }
-    fprintf(fptr, *buffer);
+    fprintf(fptr, *content);
     fclose(fptr);
     return 0;
 }

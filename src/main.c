@@ -10,7 +10,8 @@ typedef struct {
 
 static hl_command_struct_t commands[] = {
     { "hash-object", &command_hash_object },
-    { "cat-file", &command_cat_file }
+    { "cat-file", &command_cat_file },
+    { "commit-tree", &command_commit_tree }
 };
 
 static hl_command_struct_t* get_builtin(const char* str) {

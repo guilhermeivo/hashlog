@@ -22,6 +22,7 @@ extern const char __stop_commandinfo[];
 
 int command_cat_file(int argc, const char** argv);
 int command_hash_object(int argc, const char** argv);
+int command_commit_tree(int argc, const char** argv);
 
 const char* dump_command(char* command_prefix);
 
