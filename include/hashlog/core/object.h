@@ -6,6 +6,7 @@
 #include <string.h>
 
 #include <hashlog/utils.h>
+#include <hashlog/exceptions.h>
 
 #include "core.h"
 #include "hash.h"

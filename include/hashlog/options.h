@@ -3,6 +3,7 @@
 
 #include <hashlog/core/config.h>
 #include <hashlog/utils.h>
+#include <hashlog/exceptions.h>
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>

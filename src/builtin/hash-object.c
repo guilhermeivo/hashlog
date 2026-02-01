@@ -48,7 +48,9 @@ int command_hash_object(int argc, const char** argv) {
     init_object(&object);
 
     size_t buffer_length = object.size;
-    buffer = (char*) malloc(buffer_length * sizeof(char));
+    if ((buffer = (char*) malloc(buffer_length * sizeof(char))) == NULL) {
+        die(EXCEEDED_MEMORY);
+    }
 
     size_t size = build_object(&object, &buffer, buffer_length);
 

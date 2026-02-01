@@ -15,8 +15,10 @@ int create_hash(char** buffer, size_t length, unsigned char** digest, unsigned i
 	if(1 != EVP_DigestUpdate(mdctx, *buffer, length))
 		goto err;
 
-	if((*digest = (unsigned char *)OPENSSL_malloc(EVP_MD_size(EVP_sha256()))) == NULL)
+	if((*digest = (unsigned char *)OPENSSL_malloc(EVP_MD_size(EVP_sha256()))) == NULL) {
+		perror("Execution exceeded memory limit.");
 		goto err;
+	}
 
 	if(1 != EVP_DigestFinal_ex(mdctx, *digest, digest_len))
 		goto err;

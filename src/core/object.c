@@ -71,9 +71,8 @@ hl_object_t read_object(const char* filename) {
     }
     object.type = object_define_type(object_type);
 
-    object.content = (char*) malloc(sizeof(char) * (object.content_size + 1));
-    if (!object.content) {
-        goto finish;
+    if ((object.content = (char*) malloc(sizeof(char) * (object.content_size + 1))) == NULL) {
+        die(EXCEEDED_MEMORY);
     }
 
     size_t read = fread(object.content, 1, object.content_size, fptr);

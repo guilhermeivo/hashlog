@@ -15,7 +15,10 @@ int parse_option_string_interactive(hl_option_t option) {
         return 1;
     }
 
-    *((char**) option.value) = (char*) malloc(sizeof(char) * MAX_SIZE);
+    if ((*((char**) option.value) = (char*) malloc(sizeof(char) * MAX_SIZE)) == NULL) {
+        perror(EXCEEDED_MEMORY);
+        return 1;
+    }
     int c = 0;
     while (fgets(buffer, MAX_SIZE, fp) != NULL) {
         c += snprintf(*((char**) option.value) + c, MAX_SIZE, "%s", buffer);
@@ -28,7 +31,10 @@ int parse_option_string_interactive(hl_option_t option) {
 }
 
 int parse_option_string_argument(hl_option_t option, char* argument) {
-    *((char**) option.value) = (char*) malloc(sizeof(char) * (strlen(argument) + 1));
+    if ((*((char**) option.value) = (char*) malloc(sizeof(char) * (strlen(argument) + 1))) == NULL) {
+        perror(EXCEEDED_MEMORY);
+        return 1;
+    }
     strcpy(*((char**) option.value), argument);
 
     return 0;
