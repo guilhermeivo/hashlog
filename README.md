@@ -13,5 +13,5 @@
 - [ ] Revert de um commit, sem resolução de conflitos
 - [ ] Status
 - [ ] Rebase interativo
-- [ ] Stash push, stash pop   
-- [~] Packfiles
+- [~] Stash push, stash pop   
+- [ ] Packfiles
