@@ -20,9 +20,9 @@ int command_help(int argc, const char** argv) {
 
     for (size_t i = 0; i < commands_len; i++) {
         if (strcmp(commands[i].command, "help")) {
-            const char *argv[] = { "help", "--help" };
+            const char *__argv[] = { "help", "--help" };
             printf(UNDERLINE("%s")": ", commands[i].command);
-            commands[i].function(2, argv);
+            commands[i].function(2, __argv);
             printf("\n");
         }
     }
