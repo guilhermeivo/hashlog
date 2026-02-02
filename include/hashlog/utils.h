@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <stdio.h>
+#include <time.h>
 
 #define CONCAT2(a, b) a##b
 #define CONCAT(a, b) CONCAT2(a, b)
@@ -25,5 +26,8 @@
 size_t get_places_amount(int value);
 void bytes_to_hex(const unsigned char* bytes, size_t len, char* hex);
 void ensure_dir(const char* dir);
+
+#define DATETIME_SIZE 32
+void get_datetime(char buffer[DATETIME_SIZE]);
 
 #endif

@@ -2,6 +2,7 @@
 
 cfg_opt_t opts[] = {
     CFG_STR("editor", TEXT_EDITOR_DEFAULT, CFGF_NONE),
+    CFG_STR("author", AUTHOR_DEFAULT, CFGF_NONE),
     CFG_END()
 };
 

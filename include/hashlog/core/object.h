@@ -14,8 +14,7 @@
 #define OBJECT_FOLDER "objects"
 
 #define BLOB 0x0
-#define TREE 0x1
-#define COMMIT 0x2
+#define COMMIT 0x1
 
 typedef struct {
     int key;
@@ -27,33 +26,20 @@ extern const keyvalue_t string_type[];
 /**
  * @brief Estrutura que representa um objeto no HashLog (semelhante a objetos do Git)
  *
- * Um objeto pode ser de três tipos principais: blob, tree ou commit.
+ * Um objeto pode ser de três tipos principais: blob ou commit.
  *
  * - BLOB: contém dados brutos, geralmente texto de um comentário.
  *   Exemplo de conteúdo:
  *     "Este é um comentário de teste"
  *
- * - TREE: representa uma árvore de objetos, armazenando relações pai-filho.
- *   Cada entrada da tree tem o formato:
- *       <nome>\0<hash>
- *     onde:
- *       - nome: identificador do comentário ou arquivo
- *       - hash: hash do objeto filho (blob ou tree)
- *   Exemplo de conteúdo de tree:
- *       blob 1a2b3c4d5e6f7g8h9i0
- *       tree 48jfn10skd10294kxm4
- *       blob 9i8h7g6f5e4d3c2b1a0
- *
  * - COMMIT: representa um snapshot da árvore em determinado ponto no tempo.
  *   Contém referências para:
- *       - tree raiz
  *       - commit pai(s)
  *       - mensagem
  *
  * @note O campo content armazena os dados serializados do objeto.
  *       Para blobs, é o texto do comentário.
- *       Para trees, é a lista de entradas codificada.
- *       Para commits, é o objeto commit serializado (tree, pai, mensagem).
+ *       Para commits, é o objeto commit serializado (pai, mensagem).
  */
 typedef struct {
     int type;

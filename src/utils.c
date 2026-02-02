@@ -18,3 +18,11 @@ void bytes_to_hex(const unsigned char* bytes, size_t len, char* hex) {
 void ensure_dir(const char* dir) {
     mkdir(dir, 0755);
 }
+
+void get_datetime(char buffer[DATETIME_SIZE]) {
+    struct tm tm;
+    time_t now = time(NULL);
+    gmtime_r(&now, &tm);
+
+    strftime(buffer, DATETIME_SIZE, "%Y-%m-%dT%H:%M:%SZ", &tm);
+}

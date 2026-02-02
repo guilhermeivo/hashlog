@@ -2,7 +2,6 @@
 
 const keyvalue_t string_type[] = {
     { .key = BLOB, .value = "blob" },
-    { .key = TREE, .value = "tree" },
     { .key = COMMIT, .value = "commit" }
 };
 

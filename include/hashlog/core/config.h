@@ -8,6 +8,7 @@
 #include <hashlog/utils.h>
 
 #define TEXT_EDITOR_DEFAULT "vim"
+#define AUTHOR_DEFAULT "unknown"
 
 void init_config();
 char* get_config(char* name);

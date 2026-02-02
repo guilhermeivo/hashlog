@@ -51,7 +51,10 @@ int parse_options(const hl_option_t options[], size_t options_length, int argc, 
     for (int i = 0; i < argc; i++) {
         for (size_t j = 0; j < options_length; j++) {
             hl_option_t option = options[j];
-            if (!strcmp(argv[i], (char[3]){'-', option.short_name, '\0'})) {
+            char long_name_argument[3 + strlen(option.long_name)];
+            snprintf(long_name_argument, 3 + strlen(option.long_name), "--%s", option.long_name);
+            if ((option.short_name != 0 && !strcmp(argv[i], (char[3]){'-', option.short_name, '\0'})) ||
+                !strcmp(argv[i], long_name_argument)) {
                 switch (option.type) {
                 case OPTION_STRING:
                     if (i + 1 < argc) {
