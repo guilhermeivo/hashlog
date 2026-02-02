@@ -90,3 +90,17 @@ hl_object_t read_object(const char* filename) {
         fclose(fptr);
         return object;
 }
+
+int load_object(char** buffer, size_t buffer_size, char hex[2 * SHA256_SIZE + 1]) {
+    unsigned int hash_size = SHA256_SIZE;
+    unsigned char* hash = NULL;
+
+    create_hash(buffer, buffer_size, &hash, &hash_size);
+    bytes_to_hex(hash, hash_size, hex);
+
+    write_object(hex, buffer);
+
+    SECURE_FREE(hash);
+
+    return 0;
+}

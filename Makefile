@@ -1,6 +1,6 @@
 CC        ?= gcc
 CFLAGS    := -Wall -Wextra -O2 -I./include
-LIBS      := -lcrypto -lm
+LIBS      := -lcrypto -lm -lconfuse
 LDFLAGS  += -Wl,-T,commandinfo.ld
 
 BIN_PATH := bin

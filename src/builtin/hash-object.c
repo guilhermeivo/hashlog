@@ -7,9 +7,7 @@ int command_hash_object(int argc, const char** argv) {
 
     hl_object_t object = {0};
 
-    unsigned int hash_size = SHA256_SIZE;
-    unsigned char* hash = NULL;
-    char hex[2 * hash_size + 1];
+    char hex[2 * SHA256_SIZE + 1];
 
     char* buffer = NULL;
 
@@ -53,17 +51,12 @@ int command_hash_object(int argc, const char** argv) {
     }
 
     size_t size = build_object(&object, &buffer, buffer_length);
-
-    create_hash(&buffer, size, &hash, &hash_size);
-    bytes_to_hex(hash, hash_size, hex);
-
-    write_object(hex, &buffer);
+    load_object(&buffer, size, hex);
 
     printf("%s\n", hex);
 
     out:
         SECURE_FREE(buffer);
-        SECURE_FREE(hash);
         free_options(options, ARRAY_SIZE(options));
         return 0;
 }

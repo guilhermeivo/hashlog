@@ -1,6 +1,15 @@
-#ifndef HASHLOG_CORE_H
-#define HASHLOG_CORE_H
+#ifndef HASHLOG_CONFIG_H
+#define HASHLOG_CONFIG_H
+
+#include <confuse.h>
+#include <stdlib.h>
+
+#include <hashlog/core/core.h>
+#include <hashlog/utils.h>
 
 #define TEXT_EDITOR_DEFAULT "vim"
+
+void init_config();
+char* get_config(char* name);
 
 #endif

@@ -2,6 +2,7 @@
 #include <string.h>
 
 #include <hashlog/builtin.h>
+#include <hashlog/core/config.h>
 
 typedef struct {
 	const char* command;
@@ -24,6 +25,8 @@ static hl_command_struct_t* get_builtin(const char* str) {
 }
 
 int main(int argc, const char** argv) {
+    init_config();
+
     const char* command;
 
     argv++;

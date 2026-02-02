@@ -8,7 +8,13 @@ int parse_option_string_interactive(hl_option_t option) {
     char buffer[MAX_SIZE];
     char command[50];
 
-    sprintf(command, "%s %s", TEXT_EDITOR_DEFAULT, FILENAME);
+    if ((fp = fopen(FILENAME, "w")) == NULL) {
+        return 1;
+    }
+    fclose(fp);
+
+    char* editor = get_config("editor");
+    sprintf(command, "%s %s", editor, FILENAME);
     system(command);
 
     if ((fp = fopen(FILENAME, "r")) == NULL) {

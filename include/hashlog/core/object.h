@@ -68,5 +68,6 @@ void init_object(hl_object_t* object);
 size_t build_object(const hl_object_t* object, char** buffer, const size_t buffer_size);
 int write_object(const char* filename, char** content);
 hl_object_t read_object(const char* filename);
+int load_object(char** buffer, size_t buffer_size, char hex[2 * SHA256_SIZE + 1]);
 
 #endif
