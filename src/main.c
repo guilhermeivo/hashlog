@@ -13,7 +13,8 @@ static hl_command_struct_t commands[] = {
     { "hash-object", &command_hash_object },
     { "cat-file", &command_cat_file },
     { "post", &command_post },
-    { "show", &command_show }
+    { "show", &command_show },
+    { "log", &command_log }
 };
 
 static hl_command_struct_t* get_builtin(const char* str) {
