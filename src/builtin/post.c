@@ -1,80 +1,11 @@
 #include <hashlog/builtin.h>
 
-void command_post__blob(char* hex, char* message) {
-    hl_object_t object = {0};
-    object.type = BLOB;
-
-    char* buffer = NULL;
-
-    object.content = message;
-    object.content_size = strlen(message);
-
-    init_object(&object);
-
-    size_t buffer_length = object.size;
-    if ((buffer = (char*) malloc(buffer_length * sizeof(char))) == NULL) {
-        die(EXCEEDED_MEMORY);
-    }
-
-    size_t size = build_object(&object, &buffer, buffer_length);
-    load_object(&buffer, size, hex);
-
-    SECURE_FREE(buffer);
+void command_post__blob(char* message, size_t size, char* hex) {
+    create_blob(message, size, hex);
 }
 
-size_t create_commit_message(char* message, size_t message_size, char* reply_to, char* author, char* blob_hex) {
-    memset(message, 0, message_size);
-
-    size_t length = 0;
-
-    length += snprintf(message + length, message_size - length, "blob %s\n", blob_hex);
-
-    if (reply_to) {
-        length += snprintf(message + length, message_size - length, "parent %s\n", reply_to);
-    }
-
-    if (author) {
-        length += snprintf(message + length, message_size - length, "author %s\n", author);
-    } else {
-        char* __author = get_config("author");
-        length += snprintf(message + length, message_size - length, "author %s\n", __author);
-    }
-    
-    char datetime[DATETIME_SIZE];
-    get_datetime(datetime);
-    length += snprintf(message + length, message_size - length, "timestamp %s\n\n", datetime);
-
-    if (length >= message_size) {
-        die("Commit message too large.");
-    }
-
-    return length;
-}
-
-void command_post__commit(char* hex, char* reply_to, char* author, char* blob_hex) {
-    char* message = (char*) malloc(4096 * sizeof(char));
-    size_t len = create_commit_message(message, 4096, reply_to, author, blob_hex);
-
-    hl_object_t object = {0};
-    object.type = COMMIT;
-
-    char* buffer = NULL;
-
-    object.content = message;
-    object.content_size = len;
-
-    init_object(&object);
-
-    size_t buffer_length = object.size;
-    if ((buffer = (char*) malloc(buffer_length * sizeof(char))) == NULL) {
-        die(EXCEEDED_MEMORY);
-    }
-
-    size_t size = build_object(&object, &buffer, buffer_length);
-    load_object(&buffer, size, hex);
-
-    SECURE_FREE(buffer);
-    SECURE_FREE(message);
+void command_post__commit(char* blob_hex, char* reply_to, char* author, char* hex) {
+    create_commit(blob_hex, reply_to, author, hex);
 }
 
 int command_post(int argc, const char** argv) {
@@ -112,10 +43,10 @@ int command_post(int argc, const char** argv) {
         SECURE_FREE(reply_to_object.content);
     }
 
-    char hex_blob[2 * SHA256_SIZE + 1];
-    command_post__blob(hex_blob, message);
+    char blob_hex[2 * SHA256_SIZE + 1];
+    command_post__blob(message, strlen(message), blob_hex);
     char hex_commit[2 * SHA256_SIZE + 1];
-    command_post__commit(hex_commit, reply_to, author, hex_blob);
+    command_post__commit(blob_hex, reply_to, author, hex_commit);
 
     printf("%s\n", hex_commit);
 

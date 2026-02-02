@@ -7,6 +7,8 @@
 #include <hashlog/utils.h>
 #include <hashlog/core/object.h>
 #include <hashlog/builtin/help.h>
+#include <hashlog/core/blob.h>
+#include <hashlog/core/commit.h>
 
 #define COMMAND_PREFIX "command"
 

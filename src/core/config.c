@@ -34,7 +34,10 @@ void init_config() {
     char path[4096];
     get_path(path, sizeof(path));
 
-    cfg_parse(cfg, path);
+    if (cfg_parse(cfg, path) != CFG_SUCCESS) {
+        cfg_free(cfg);
+        return;
+    }
 
     FILE *fp = fopen(path, "w");
     cfg_print(cfg, fp);
@@ -43,17 +46,27 @@ void init_config() {
     cfg_free(cfg);
 }
 
-char* get_config(char* name) {
-    cfg_t *cfg = cfg_init(opts, CFGF_NONE);
+char* get_config(const char* name) {
+    cfg_t* cfg = cfg_init(opts, CFGF_NONE);
 
     char path[4096];
     get_path(path, sizeof(path));
 
-    cfg_parse(cfg, path);
+    if (cfg_parse(cfg, path) != CFG_SUCCESS) {
+        cfg_free(cfg);
+        return NULL;
+    }
 
-    cfg_opt_t* options = cfg_getopt(cfg, name);
+    cfg_opt_t* opt = cfg_getopt(cfg, name);
+    if (!opt || !opt->values || !opt->values[0]->string) {
+        cfg_free(cfg);
+        return NULL;
+    }
 
-    return options->values[0]->string;
+    char* value = strdup(opt->values[0]->string);
+    cfg_free(cfg);
+
+    return value;
 }
 
 void set_config(char* name, char* value) {

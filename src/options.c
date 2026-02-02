@@ -15,6 +15,7 @@ int parse_option_string_interactive(hl_option_t option) {
 
     char* editor = get_config("editor");
     sprintf(command, "%s %s", editor, FILENAME);
+    free(editor);
     system(command);
 
     if ((fp = fopen(FILENAME, "r")) == NULL) {

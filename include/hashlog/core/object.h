@@ -52,7 +52,7 @@ char* object_string_type(const int type);
 int object_define_type(const char* type);
 void init_object(hl_object_t* object);
 size_t build_object(const hl_object_t* object, char** buffer, const size_t buffer_size);
-int write_object(const char* filename, char** content);
+int write_object(const char* filename, char* content, size_t buffer_size);
 hl_object_t read_object(const char* filename);
 int load_object(char** buffer, size_t buffer_size, char hex[2 * SHA256_SIZE + 1]);
 
