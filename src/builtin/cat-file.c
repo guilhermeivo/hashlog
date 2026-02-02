@@ -24,7 +24,7 @@ int command_cat_file(int argc, const char** argv) {
 
     if (path) {
         object = read_object(path);
-        printf("%s %ld %s\n", object_string_type(object.type), object.content_size, object.content);
+        printf("%s\n", object.content);
 
         goto out;
     }
