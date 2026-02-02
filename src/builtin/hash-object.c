@@ -14,7 +14,7 @@ int command_hash_object(int argc, const char** argv) {
     static const hl_option_t options[] = {
         OPT_STRING('t', "type", &type, "Object type."),
         OPT_STRING('w', "write", &write, "Write the object."),
-        OPT_BOOLEAN('h', "help", &help, "Show this help message."),
+        OPT_BOOLEAN('h', "help", &help, "Show help message."),
     };
 
     if (parse_options(options, ARRAY_SIZE(options), argc - 1, argv + 1) < 0) {
@@ -22,7 +22,7 @@ int command_hash_object(int argc, const char** argv) {
     }
 
     if (help) {
-        print_command_help(argv[-1], options, ARRAY_SIZE(options));
+        print_command_help(options, ARRAY_SIZE(options));
         goto out;
     }
 
@@ -61,5 +61,4 @@ int command_hash_object(int argc, const char** argv) {
         return 0;
 }
 
-COMMAND_INFO(usage, "hash-object [ -t <type> ] ( -w <string> )")
-COMMAND_INFO(description, "")
+COMMAND_INFO(command_hash_object, description, "Calculate the object ID and create an object as input.")

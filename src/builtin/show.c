@@ -9,7 +9,7 @@ int command_show(int argc, const char** argv) {
 
     static const hl_option_t options[] = {
         OPT_STRING('h', "commit-hash", &commit_hash, ""),
-        OPT_BOOLEAN('h', "help", &help, "Show this help message."),
+        OPT_BOOLEAN('h', "help", &help, "Show help message."),
     };
 
     if (parse_options(options, ARRAY_SIZE(options), argc - 1, argv + 1) < 0) {
@@ -17,7 +17,7 @@ int command_show(int argc, const char** argv) {
     }
 
     if (help) {
-        print_command_help(argv[-1], options, ARRAY_SIZE(options));
+        print_command_help(options, ARRAY_SIZE(options));
         goto out;
     }
 
@@ -47,5 +47,4 @@ int command_show(int argc, const char** argv) {
         return 0;
 }
 
-COMMAND_INFO(usage, "show [ -h <commit-hash> ]")
-COMMAND_INFO(description, "")
+COMMAND_INFO(command_show, description, "Show the content of a message or commit.")

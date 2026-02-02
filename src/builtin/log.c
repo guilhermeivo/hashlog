@@ -9,7 +9,7 @@ int command_log(int argc, const char** argv) {
 
     static const hl_option_t options[] = {
         OPT_STRING('h', "commit-hash", &commit_hash, ""),
-        OPT_BOOLEAN('h', "help", &help, "Show this help message."),
+        OPT_BOOLEAN('h', "help", &help, "Show help message."),
     };
 
     if (parse_options(options, ARRAY_SIZE(options), argc - 1, argv + 1) < 0) {
@@ -17,7 +17,7 @@ int command_log(int argc, const char** argv) {
     }
 
     if (help) {
-        print_command_help(argv[-1], options, ARRAY_SIZE(options));
+        print_command_help(options, ARRAY_SIZE(options));
         goto out;
     }
 
@@ -31,8 +31,9 @@ int command_log(int argc, const char** argv) {
         out = popen("less -R", "w");
     }
 
-    char current[HASH_HEX_SIZE];
+    char current[HASH_HEX_SIZE + 1];
     strncpy(current, commit_hash, HASH_HEX_SIZE);
+    current[HASH_HEX_SIZE] = '\0';
 
     while (current[0]) {
         object = read_object(current);
@@ -74,5 +75,4 @@ int command_log(int argc, const char** argv) {
         return 0;
 }
 
-COMMAND_INFO(usage, "log [ -h <commit-hash> ]")
-COMMAND_INFO(description, "")
+COMMAND_INFO(command_log, description, "Show commit logs")

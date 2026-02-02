@@ -4,28 +4,6 @@
 #include <hashlog/builtin.h>
 #include <hashlog/core/config.h>
 
-typedef struct {
-	const char* command;
-	int (*function)(int, const char**);
-} hl_command_struct_t;
-
-static hl_command_struct_t commands[] = {
-    { "hash-object", &command_hash_object },
-    { "cat-file", &command_cat_file },
-    { "post", &command_post },
-    { "show", &command_show },
-    { "log", &command_log }
-};
-
-static hl_command_struct_t* get_builtin(const char* str) {
-    for (size_t i = 0; i < sizeof(commands) / sizeof(hl_command_struct_t); i++) {
-        if (!strcmp(str, commands[i].command)) {
-            return &(commands[i]);
-        }
-    }
-    return NULL;
-}
-
 int main(int argc, const char** argv) {
     init_config();
 

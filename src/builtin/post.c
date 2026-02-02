@@ -18,7 +18,7 @@ int command_post(int argc, const char** argv) {
         OPT_STRING('m', "message", &message, ""),
         OPT_STRING(0, "reply-to", &reply_to, ""),
         OPT_STRING(0, "author", &author, ""),
-        OPT_BOOLEAN('h', "help", &help, "Show this help message."),
+        OPT_BOOLEAN('h', "help", &help, "Show help message."),
     };
 
     if (parse_options(options, ARRAY_SIZE(options), argc - 1, argv + 1) < 0) {
@@ -26,7 +26,7 @@ int command_post(int argc, const char** argv) {
     }
 
     if (help) {
-        print_command_help(argv[-1], options, ARRAY_SIZE(options));
+        print_command_help(options, ARRAY_SIZE(options));
         goto out;
     }
 
@@ -55,5 +55,4 @@ int command_post(int argc, const char** argv) {
         return 0;
 }
 
-COMMAND_INFO(usage, "post [ -m <message> ]")
-COMMAND_INFO(description, "")
+COMMAND_INFO(command_post, description, "Send a message or reply to an existing message.")
