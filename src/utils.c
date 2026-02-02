@@ -1,9 +1,5 @@
 #include <hashlog/utils.h>
 
-size_t get_places_amount(int value) {
-    return floor(log10(abs(value))) + 1;
-}
-
 void bytes_to_hex(const unsigned char* bytes, size_t len, char* hex) {
     static const char lut[] = "0123456789abcdef";
 

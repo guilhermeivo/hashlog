@@ -23,7 +23,6 @@
 #define BOLD(v) "\033[1m" v "\033[0m"
 #define UNDERLINE(v) "\033[4m" v "\033[0m"
 
-size_t get_places_amount(int value);
 void bytes_to_hex(const unsigned char* bytes, size_t len, char* hex);
 void ensure_dir(const char* dir);
 
