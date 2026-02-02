@@ -30,7 +30,7 @@ size_t create_commit_message(char* message, size_t message_size, const char* par
     return length;
 }
 
-int create_commit(const char* blob_hex, const char* parent_hex, const char* author, char hex[2 * SHA256_SIZE + 1]) {
+int create_commit(const char* blob_hex, const char* parent_hex, const char* author, char hex[HASH_HEX_SIZE]) {
     char* message = (char*) malloc(MAX_SIZE_COMMIT * sizeof(char));
     size_t len = create_commit_message(message, MAX_SIZE_COMMIT, parent_hex, author, blob_hex);
 
@@ -56,4 +56,22 @@ int create_commit(const char* blob_hex, const char* parent_hex, const char* auth
     SECURE_FREE(message);
 
     return 0;
+}
+
+void parse_commit(char* content, commit_info_t* out) {
+    char* saveptr;
+    char* line = strtok_r(content, "\n", &saveptr);
+
+    while (line) {
+        if (strncmp(line, "blob ", 5) == 0) {
+            strncpy(out->blob, line + 5, sizeof(out->blob) - 1);
+        } else if (strncmp(line, "parent ", 7) == 0) {
+            strncpy(out->parent, line + 7, sizeof(out->parent) - 1);
+        } else if (strncmp(line, "author ", 7) == 0) {
+            strncpy(out->author, line + 7, sizeof(out->author) - 1);
+        } else if (strncmp(line, "timestamp ", 10) == 0) {
+            strncpy(out->timestamp, line + 10, sizeof(out->timestamp) - 1);
+        }
+        line = strtok_r(NULL, "\n", &saveptr);
+    }
 }

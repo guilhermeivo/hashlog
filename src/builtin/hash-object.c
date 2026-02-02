@@ -7,7 +7,7 @@ int command_hash_object(int argc, const char** argv) {
 
     hl_object_t object = {0};
 
-    char hex[2 * SHA256_SIZE + 1];
+    char hex[HASH_HEX_SIZE];
 
     char* buffer = NULL;
 

@@ -43,9 +43,9 @@ int command_post(int argc, const char** argv) {
         SECURE_FREE(reply_to_object.content);
     }
 
-    char blob_hex[2 * SHA256_SIZE + 1];
+    char blob_hex[HASH_HEX_SIZE];
     command_post__blob(message, strlen(message), blob_hex);
-    char hex_commit[2 * SHA256_SIZE + 1];
+    char hex_commit[HASH_HEX_SIZE];
     command_post__commit(blob_hex, reply_to, author, hex_commit);
 
     printf("%s\n", hex_commit);

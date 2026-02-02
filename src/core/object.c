@@ -111,7 +111,7 @@ hl_object_t read_object(const char* filename) {
         return object;
 }
 
-int load_object(char** buffer, size_t buffer_size, char hex[2 * SHA256_SIZE + 1]) {
+int load_object(char** buffer, size_t buffer_size, char hex[HASH_HEX_SIZE]) {
     unsigned int hash_size = SHA256_SIZE;
     unsigned char* hash = NULL;
 
