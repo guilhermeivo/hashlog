@@ -89,7 +89,6 @@ root_commit_id -> [thread_ids]
 
 Exemplo:
 ```
-index/threads_by_root: 
 C1 -> B1 
 C2 -> B2
 ```
