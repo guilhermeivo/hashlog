@@ -64,7 +64,7 @@ C1 <- C2 <- C3 <- C4 (thread T1)
 
 ## 5. Índices
 
-### 5.1 `children_by_commit`
+### 5.1 children_by_commit
 
 Mapeia commits pais para seus filhos diretos.
 
@@ -81,7 +81,7 @@ C2 -> C6
 O índice pode ser persistido de forma append-only ou reconstruído a partir dos
 commits armazenados.
 
-### 5.2 `threads_by_root`
+### 5.2 threads_by_root
 
 Mapeia commits raiz para as threads que se originam a partir deles.
 
