@@ -13,6 +13,10 @@ int write_ref(const char* subfolder, const char* filename, char* content, size_t
 
 int read_ref(const char* subfolder, const char* filename, char hash[HASH_HEX_SIZE]);
 
+/**
+ * @brief Writes the reference (`write_ref`).
+ * 
+ */
 int load_ref(const char* subfolder, const char* filename, char** buffer, size_t buffer_size);
 
 int remove_ref(const char* subfolder, const char* filename);

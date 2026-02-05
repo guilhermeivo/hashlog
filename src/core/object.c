@@ -112,7 +112,7 @@ hl_object_t read_object(const char* filename) {
 }
 
 int load_object(char** buffer, size_t buffer_size, char hex[HASH_HEX_SIZE]) {
-    unsigned int hash_size = SHA256_SIZE;
+    unsigned int hash_size = HASH_HEX_SIZE;
     unsigned char* hash = NULL;
 
     create_hash(buffer, buffer_size, &hash, &hash_size);

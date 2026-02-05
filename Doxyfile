@@ -49,7 +49,7 @@ WARN_IF_DOC_ERROR      = YES
 WARN_NO_PARAMDOC       = NO
 
 
-INPUT                  = docs include src
+INPUT                  = ARCHITECTURE.md docs include src
 FILE_PATTERNS          = *.c \
                          *.h \
                          *.md

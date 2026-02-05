@@ -24,6 +24,11 @@
 #define BOLD(v) "\033[1m" v "\033[0m"
 #define UNDERLINE(v) "\033[4m" v "\033[0m"
 
+typedef struct {
+    int key;
+    char* value;
+} keyvalue_t;
+
 void bytes_to_hex(const unsigned char* bytes, size_t len, char* hex);
 void ensure_dir(const char* dir);
 
