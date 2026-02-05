@@ -81,21 +81,6 @@ C2 -> C6
 O índice pode ser persistido de forma append-only ou reconstruído a partir dos
 commits armazenados.
 
-### 5.2 threads_by_root
-
-Mapeia commits raiz para as threads que se originam a partir deles.
-
-root_commit_id -> [thread_ids]
-
-Exemplo:
-```
-C1 -> B1 
-C2 -> B2
-```
-
-Este índice deve ser utilizado para determinar em qual thread um novo commit deve
-ser anexado ao responder um commit específico.
-
 ---
 
 - [X] Criação de commits 
