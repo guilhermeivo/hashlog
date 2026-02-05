@@ -49,15 +49,16 @@ WARN_IF_DOC_ERROR      = YES
 WARN_NO_PARAMDOC       = NO
 
 
-INPUT                  = README.md include src
+INPUT                  = docs include src
 FILE_PATTERNS          = *.c \
-                         *.h
+                         *.h \
+                         *.md
 RECURSIVE              = YES
 
 
 EXCLUDE                =
 
-USE_MDFILE_AS_MAINPAGE = README.md
+USE_MDFILE_AS_MAINPAGE = mainpage.md
 
 GENERATE_HTML          = YES
 GENERATE_LATEX         = NO
