@@ -6,9 +6,10 @@
 #include <hashlog/options.h>
 #include <hashlog/utils.h>
 #include <hashlog/core/object.h>
+#include <hashlog/core/refs.h>
 #include <hashlog/builtin/help.h>
-#include <hashlog/core/blob.h>
-#include <hashlog/core/commit.h>
+#include <hashlog/objects/blob.h>
+#include <hashlog/objects/commit.h>
 
 #define COMMAND_PREFIX "command"
 
@@ -37,6 +38,7 @@ int command_hash_object(int argc, const char** argv);
 int command_post(int argc, const char** argv);
 int command_show(int argc, const char** argv);
 int command_log(int argc, const char** argv);
+int command_update_ref(int argc, const char** argv);
 int command_dummy(int argc, const char** argv);
 
 int command_help(int argc, const char** argv);

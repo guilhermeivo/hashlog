@@ -97,7 +97,7 @@ int parse_options(const hl_option_t options[], size_t options_length, int argc, 
 
         if (positional_only || arg[0] != '-') {
             for (size_t j = 0; j < options_length; j++) {
-                if (options[j].type == OPTION_POSITIONAL) {
+                if (options[j].type == OPTION_POSITIONAL && *((char**) options[j].value) == NULL) {
                     char **ptr = (char**) options[j].value;
                     if (!*ptr) {
                         *ptr = arg;

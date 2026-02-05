@@ -1,4 +1,4 @@
-#include <hashlog/core/blob.h>
+#include <hashlog/objects/blob.h>
 
 int create_blob(char* text, size_t size, char hex[HASH_HEX_SIZE]) {
     hl_object_t object = {0};

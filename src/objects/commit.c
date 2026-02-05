@@ -1,4 +1,4 @@
-#include <hashlog/core/commit.h>
+#include <hashlog/objects/commit.h>
 
 size_t create_commit_message(char* message, size_t message_size, const char* parent_hex, const char* author, const char* blob_hex) {
     memset(message, 0, message_size);
