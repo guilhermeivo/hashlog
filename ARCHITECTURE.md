@@ -26,14 +26,6 @@ All commands used in the project, both low-level and high-level.
 
 ### `objects/`
 
-Data saved in the `.hashlog/object/` folder, following the example.
-
-```
-object/ee/810cb24b6c085ccab38ff0dcdea763a6ae893198d13f9e9e851fe241bde7d1
-```
-
-### `objects/`
-
 Functions that process the data in the `.hashlog/object/` folder:
 
 * blobs
