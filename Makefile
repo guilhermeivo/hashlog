@@ -7,7 +7,7 @@ BIN_PATH := bin
 OBJ_PATH := obj
 SRC_PATH := src
 
-TARGET_NAME ?= main
+TARGET_NAME ?= hashlog
 TARGET := $(BIN_PATH)/$(TARGET_NAME)
 
 SRC := $(shell find $(SRC_PATH) -name '*.c')
