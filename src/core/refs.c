@@ -8,7 +8,7 @@ size_t build_ref(const char* content_hash, char** buffer, const size_t buffer_si
         content_hash
     );
 
-    (*buffer)[header_len] = '\0';
+    (*buffer)[header_len + 1] = '\0';
 
     return header_len + 1;
 }
@@ -35,14 +35,14 @@ int write_ref(const char* subfolder, const char* filename, char* content, size_t
     return 0;
 }
 
-char* read_ref(const char* subfolder, const char* filename, char hash[HASH_HEX_SIZE]) {
+int read_ref(const char* subfolder, const char* filename, char hash[HASH_HEX_SIZE]) {
     char folder[124];
 
     snprintf(folder, sizeof(folder), "%s/%s/%s/%s", ROOT_FOLDER, REFS_FOLDER, subfolder, filename);
 
     FILE* fptr;
     if ((fptr = fopen(folder, "rb")) == NULL) {
-        return NULL;
+        return 1;
     }
     
     size_t i = 0;
@@ -54,7 +54,7 @@ char* read_ref(const char* subfolder, const char* filename, char hash[HASH_HEX_S
     hash[i] = '\0';
 
     fclose(fptr);
-    return hash;
+    return 0;
 }
 
 int load_ref(const char* subfolder, const char* filename, char** buffer, size_t buffer_size) {

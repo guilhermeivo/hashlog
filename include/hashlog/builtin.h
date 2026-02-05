@@ -10,6 +10,7 @@
 #include <hashlog/builtin/help.h>
 #include <hashlog/objects/blob.h>
 #include <hashlog/objects/commit.h>
+#include <hashlog/refs/thread.h>
 
 #define COMMAND_PREFIX "command"
 

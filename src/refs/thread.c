@@ -3,7 +3,7 @@
 int create_thread(thread_info_t* thread_info) {
     char* buffer = NULL;
 
-    size_t buffer_length = strlen(thread_info->head_commit);
+    size_t buffer_length = strlen(thread_info->head_commit) + 1;
     if ((buffer = (char*) malloc(buffer_length * sizeof(char))) == NULL) {
         die(EXCEEDED_MEMORY);
     }

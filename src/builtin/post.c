@@ -1,11 +1,33 @@
 #include <hashlog/builtin.h>
 
-void command_post__blob(char* message, size_t size, char* hex) {
+void command_post__blob(char* message, size_t size, char hex[HASH_HEX_SIZE]) {
     create_blob(message, size, hex);
 }
 
-void command_post__commit(char* blob_hex, char* reply_to, char* author, char* hex) {
-    create_commit(blob_hex, reply_to, author, hex);
+void command_post__commit(char* blob_hex, char* reply_to, char* author, char hex[HASH_HEX_SIZE]) {
+    thread_info_t thread_info = {0};
+
+    if (!reply_to) {
+        create_commit(blob_hex, reply_to, author, hex);
+        return;
+    }
+
+    char head_commit[HASH_HEX_SIZE];
+    int exists = read_ref(THREAD_FOLDER, reply_to, head_commit);
+
+    if (exists == 1) {
+        memcpy(thread_info.head_commit, reply_to, HASH_HEX_SIZE);
+        memcpy(thread_info.root_commit, reply_to, HASH_HEX_SIZE);
+        create_thread(&thread_info);
+
+        read_ref(THREAD_FOLDER, reply_to, head_commit);
+    }
+
+    create_commit(blob_hex, head_commit, author, hex);
+
+    memcpy(thread_info.head_commit, hex, HASH_HEX_SIZE);
+    memcpy(thread_info.root_commit, reply_to, HASH_HEX_SIZE);
+    create_thread(&thread_info);
 }
 
 int command_post(int argc, const char** argv) {

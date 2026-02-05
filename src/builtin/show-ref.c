@@ -21,7 +21,11 @@ int command_show_ref(int argc, const char** argv) {
     }
 
     char hash[HASH_HEX_SIZE];
-    read_ref(option_category, option_reference, hash);
+    int exists = read_ref(option_category, option_reference, hash);
+
+    if (exists == 1) {
+        die("Reference does not exist.");
+    }
 
     printf("%s\n", hash);
 
