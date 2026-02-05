@@ -1,27 +1,27 @@
 #include <hashlog/builtin.h>
 
 int command_log(int argc, const char** argv) {
-    static const char* commit_hash = NULL;
-    static char help = 0;
+    static const char* option_commit_hash = NULL;
+    static char option_help = 0;
 
     hl_object_t object = {0};
     hl_object_t blob_object = {0};
 
     static const hl_option_t options[] = {
-        OPT_STRING('h', "commit-hash", &commit_hash, ""),
-        OPT_BOOLEAN('h', "help", &help, "Show help message."),
+        OPT_POSITIONAL(&option_commit_hash, "Print the <commit> log"),
+        OPT_BOOLEAN('h', "help", &option_help, "Show help message."),
     };
 
     if (parse_options(options, ARRAY_SIZE(options), argc - 1, argv + 1) < 0) {
         goto out;
     }
 
-    if (help) {
+    if (option_help) {
         print_command_help(options, ARRAY_SIZE(options));
         goto out;
     }
 
-    if (!commit_hash) {
+    if (!option_commit_hash) {
         die("A commit hash is required.");
     }
 
@@ -32,13 +32,13 @@ int command_log(int argc, const char** argv) {
     }
 
     char current[HASH_HEX_SIZE + 1];
-    strncpy(current, commit_hash, HASH_HEX_SIZE);
+    strncpy(current, option_commit_hash, HASH_HEX_SIZE);
     current[HASH_HEX_SIZE] = '\0';
 
     while (current[0]) {
         object = read_object(current);
         if (object.type != COMMIT) {
-            die("The hash for a commit is not a commit.\n\t%s", commit_hash);
+            die("The hash for a commit is not a commit.\n\t%s", option_commit_hash);
         }
         
         commit_info_t info = {0};
@@ -47,7 +47,7 @@ int command_log(int argc, const char** argv) {
 
         blob_object = read_object(info.blob);
 
-        fprintf(out, "\e[33mcommit:\t%s\e[0m\n", current);
+        fprintf(out, RED("commit:\t%s") "\n", current);
         fprintf(out, BOLD("Author") ":\t%s\n", info.author);
         fprintf(out, BOLD("Date") ":\t%s\n\n", info.timestamp);
         fprintf(out, "   %s\n", blob_object.content);

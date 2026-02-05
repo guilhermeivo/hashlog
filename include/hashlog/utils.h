@@ -20,6 +20,7 @@
         (x) = NULL; \
     } \
 
+#define RED(v) "\033[33m" v "\033[0m"
 #define BOLD(v) "\033[1m" v "\033[0m"
 #define UNDERLINE(v) "\033[4m" v "\033[0m"
 

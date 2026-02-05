@@ -1,9 +1,9 @@
 #include <hashlog/builtin.h>
 
 int command_hash_object(int argc, const char** argv) {
-    static const char* type = NULL;
-    static char* write = NULL;
-    static char help = 0; 
+    static const char* option_type = NULL;
+    static char* option_write = NULL;
+    static char option_help = 0; 
 
     hl_object_t object = {0};
 
@@ -12,22 +12,22 @@ int command_hash_object(int argc, const char** argv) {
     char* buffer = NULL;
 
     static const hl_option_t options[] = {
-        OPT_STRING('t', "type", &type, "Object type."),
-        OPT_STRING('w', "write", &write, "Write the object."),
-        OPT_BOOLEAN('h', "help", &help, "Show help message."),
+        OPT_STRING('t', "type", &option_type, "Object type."),
+        OPT_STRING('w', "write", &option_write, "Write the object."),
+        OPT_BOOLEAN('h', "help", &option_help, "Show help message."),
     };
 
     if (parse_options(options, ARRAY_SIZE(options), argc - 1, argv + 1) < 0) {
         goto out;
     }
 
-    if (help) {
+    if (option_help) {
         print_command_help(options, ARRAY_SIZE(options));
         goto out;
     }
 
-    if (type) {
-        object.type = object_define_type(type);
+    if (option_type) {
+        object.type = object_define_type(option_type);
     } else {
         object.type = BLOB;
     }
@@ -36,9 +36,9 @@ int command_hash_object(int argc, const char** argv) {
         die("Incorrect type for the object.");
     }
 
-    if (write && strlen(write) > 0) {
-        object.content = write;
-        object.content_size = strlen(write);
+    if (option_write && strlen(option_write) > 0) {
+        object.content = option_write;
+        object.content_size = strlen(option_write);
     } else {
         goto out;
     }
