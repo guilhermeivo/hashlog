@@ -31,7 +31,8 @@ int command_update_ref(int argc, const char** argv) {
         goto out;
     }
 
-    if (!(option_new_value && strlen(option_new_value) > 0)) {
+    if (!(option_new_value && strlen(option_new_value) > 0) && !option_delete) {
+        die("A new value change is necessary.");
         goto out;
     }
 

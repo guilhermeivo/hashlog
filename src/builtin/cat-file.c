@@ -29,6 +29,11 @@ int command_cat_file(int argc, const char** argv) {
 
     if (option_path) {
         object = read_object(option_path);
+        if (!object.content) {
+            die("Invalid hash of passed object.");
+            goto out;
+        }
+
         printf("%s\n", object.content);
 
         goto out;
@@ -36,6 +41,11 @@ int command_cat_file(int argc, const char** argv) {
 
     if (option_type) {
         object = read_object(option_type);
+        if (!object.content) {
+            die("Invalid hash of passed object.");
+            goto out;
+        }
+
         printf("%s\n", object_string_type(object.type));
 
         goto out;
