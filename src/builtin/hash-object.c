@@ -62,3 +62,4 @@ int command_hash_object(int argc, const char** argv) {
 }
 
 COMMAND_INFO(command_hash_object, description, "Calculate the object ID and create an object as input.")
+COMMAND_INFO(command_hash_object, type, "low")

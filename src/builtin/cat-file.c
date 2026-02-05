@@ -48,3 +48,4 @@ int command_cat_file(int argc, const char** argv) {
 }
 
 COMMAND_INFO(command_cat_file, description, "Content or other properties of one or more objects.")
+COMMAND_INFO(command_cat_file, type, "low")

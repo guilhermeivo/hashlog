@@ -113,6 +113,8 @@ int parse_options(const hl_option_t options[], size_t options_length, int argc, 
             for (size_t j = 0; j < options_length; j++) {
                 hl_option_t option = options[j];
 
+                if (option.type == OPTION_POSITIONAL) continue;
+
                 const char* val = NULL;
 
                 if (option.short_name && 
@@ -133,8 +135,9 @@ int parse_options(const hl_option_t options[], size_t options_length, int argc, 
                         matched = 1;
                         if (arg[2 + len] == '=') 
                             val = arg + 3 + len;
-                        else if (option.type != OPTION_BOOLEAN && i + 1 < argc) 
+                        else if (option.type != OPTION_BOOLEAN && i + 1 < argc) {
                             val = argv[++i];
+                        }
                     }
 
                 if (matched) {

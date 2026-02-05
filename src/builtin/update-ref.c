@@ -52,3 +52,4 @@ int command_update_ref(int argc, const char** argv) {
 }
 
 COMMAND_INFO(command_update_ref, description, "Calculate the object ID and create an object as input.")
+COMMAND_INFO(command_update_ref, type, "low")
