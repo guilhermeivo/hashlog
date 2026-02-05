@@ -22,14 +22,22 @@ int parse_option_string_interactive(hl_option_t option) {
         return 1;
     }
 
-    if ((*((char**) option.value) = (char*) malloc(sizeof(char) * MAX_SIZE)) == NULL) {
+    char* value = NULL;
+    if ((value = (char*) malloc(sizeof(char) * MAX_SIZE)) == NULL) {
         perror(EXCEEDED_MEMORY);
+        fclose(fp);
         return 1;
     }
-    int c = 0;
-    while (fgets(buffer, MAX_SIZE, fp) != NULL) {
-        c += snprintf(*((char**) option.value) + c, MAX_SIZE, "%s", buffer);
+    size_t c = 0;
+    while (fgets(buffer, sizeof(buffer), fp) != NULL) {
+        size_t len = strlen(buffer);
+        if (c + len >= MAX_SIZE - 1) break;
+        strcpy(value + c, buffer);
+        c += len;
     }
+    value[c] = '\0';
+
+    *((char**) option.value) = value;
 
     fclose(fp);
     remove(FILENAME);
@@ -37,67 +45,99 @@ int parse_option_string_interactive(hl_option_t option) {
     return 0;
 }
 
-int parse_option_string_argument(hl_option_t option, char* argument) {
-    if ((*((char**) option.value) = (char*) malloc(sizeof(char) * (strlen(argument) + 1))) == NULL) {
+int parse_option_string_argument(hl_option_t option, const char* argument) {
+    char **ptr = (char**) option.value;
+    char* value = NULL;
+    if (*ptr) {
+        SECURE_FREE(*ptr);
+    }
+    if ((value = (char*) malloc(sizeof(char) * (strlen(argument) + 1))) == NULL) {
         perror(EXCEEDED_MEMORY);
         return 1;
     }
-    strcpy(*((char**) option.value), argument);
+    strcpy(value, argument);
+    *ptr = value;
+
+    return 0;
+}
+
+int parse_option_multiple_string_argument(hl_option_t option, const char* argument) {
+    char*** value_ptr = ((char***) option.value);
+    size_t size = 0;
+
+    if (*value_ptr) {
+        while ((*value_ptr)[size])
+            size++;
+    }
+
+    *value_ptr = realloc(*value_ptr, (size + 2) * sizeof(char *));
+    if (!*value_ptr) {
+        perror(EXCEEDED_MEMORY);
+        return 1;
+    }
+
+    (*value_ptr)[size] = strdup(argument);
+    (*value_ptr)[size + 1] = NULL;
 
     return 0;
 }
 
 int parse_options(const hl_option_t options[], size_t options_length, int argc, const char** argv) {
     int amount_options_validate = 0;
+
     for (int i = 0; i < argc; i++) {
-        for (size_t j = 0; j < options_length; j++) {
-            hl_option_t option = options[j];
-            char long_name_argument[3 + strlen(option.long_name)];
-            snprintf(long_name_argument, 3 + strlen(option.long_name), "--%s", option.long_name);
-            if ((option.short_name != 0 && !strcmp(argv[i], (char[3]){'-', option.short_name, '\0'})) ||
-                !strcmp(argv[i], long_name_argument)) {
-                switch (option.type) {
-                case OPTION_STRING:
-                    if (i + 1 < argc) {
-                        i++;
-                        parse_option_string_argument(option, (char*) argv[i]);
-                    } else {
-                        parse_option_string_interactive(option);
+        const char* arg = argv[i];
+        int matched = 0;
+
+        if (arg[0] == '-') {
+            for (size_t j = 0; j < options_length; j++) {
+                hl_option_t option = options[j];
+
+                const char* val = NULL;
+
+                if (option.short_name && 
+                    arg[1] && 
+                    arg[0] == '-' && 
+                    arg[1] == option.short_name 
+                    && arg[2] == '\0') {
+                        matched = 1;
+                        if (option.type != OPTION_BOOLEAN && i + 1 < argc) 
+                            val = argv[++i];
                     }
-                    amount_options_validate += 1;
-                    break;
-                case OPTION_MULTIPLE_STRING:
-                    if (i + 1 < argc) {
-                        i++;
-                        char* argument = (char*) argv[i];
-                        char*** value = ((char***) option.value);
-                        
-                        size_t size = 0;
 
-                        if (*value) {
-                            while ((*value)[size])
-                                size++;
-                        }
-
-                        *value = realloc(*value, (size + 2) * sizeof(char *));
-                        (*value)[size] = strdup(argument);
-                        (*value)[size + 1] = NULL;
-                    } else {
-
+                size_t len = strlen(option.long_name);
+                if (!matched && 
+                    strncmp(arg, "--", 2) == 0 && 
+                    strncmp(arg + 2, option.long_name, len) == 0 &&
+                    (arg[2 + len] == '=' || arg[2 + len] == '\0')) {
+                        matched = 1;
+                        if (arg[2 + len] == '=') 
+                            val = arg + 3 + len;
+                        else if (option.type != OPTION_BOOLEAN && i + 1 < argc) 
+                            val = argv[++i];
                     }
-                    amount_options_validate += 1;
-                    break;
-                case OPTION_BOOLEAN:
-                    *((char*) option.value) = 1;
-                    amount_options_validate += 1;
-                    break;
-                default:
+
+                if (matched) {
+                    if (option.type == OPTION_STRING) {
+                        if (val) parse_option_string_argument(option, val);
+                        else parse_option_string_interactive(option);
+                    } else if (option.type == OPTION_MULTIPLE_STRING) {
+                        if (val) parse_option_multiple_string_argument(option, val);
+                        else parse_option_string_interactive(option);
+                    } else if (option.type == OPTION_BOOLEAN) {
+                        *(int*)option.value = 1;
+                    }
+                    amount_options_validate++;
                     break;
                 }
-                break;
             }
+
+            if (!matched) die("Unknown option: %s\n", arg);
+        } else {
+            // Argumento posicional: arg
         }
     }
+
     return amount_options_validate;
 }
 

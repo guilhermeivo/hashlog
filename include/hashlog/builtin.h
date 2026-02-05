@@ -37,6 +37,7 @@ int command_hash_object(int argc, const char** argv);
 int command_post(int argc, const char** argv);
 int command_show(int argc, const char** argv);
 int command_log(int argc, const char** argv);
+int command_dummy(int argc, const char** argv);
 
 int command_help(int argc, const char** argv);
 

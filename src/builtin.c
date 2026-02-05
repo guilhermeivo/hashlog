@@ -28,7 +28,8 @@ hl_command_struct_t commands[] = {
     { "post", &command_post },
     { "show", &command_show },
     { "log", &command_log },
-    { "help", &command_help }
+    { "help", &command_help },
+    { "dummy", &command_dummy }
 };
 
 const size_t commands_len = sizeof(commands) / sizeof(hl_command_struct_t);
