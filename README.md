@@ -100,7 +100,7 @@ ser anexado ao responder um commit específico.
 
 - [X] Criação de commits 
 - [X] Criação de blobs
-- [ ] Criação de threads (branches)
+- [X] Criação de threads (branches)
 - [ ] Criação de tags leves e tags anotadas 
 - [X] Inspeção de objetos (`git cat-file`)
 - [~] Manipulação e inspeção do index (`git update-cache --add` e `git ls-files`)

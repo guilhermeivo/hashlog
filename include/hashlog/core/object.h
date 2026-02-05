@@ -15,6 +15,7 @@
 
 #define BLOB 0x0
 #define COMMIT 0x1
+#define THREAD 0x2
 
 typedef struct {
     int key;
