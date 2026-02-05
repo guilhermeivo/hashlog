@@ -13,7 +13,8 @@ enum parse_opt_type {
 	OPTION_INTEGER,
 	OPTION_FILENAME,
     OPTION_BOOLEAN,
-    OPTION_MULTIPLE_STRING
+    OPTION_MULTIPLE_STRING,
+    OPTION_POSITIONAL
 };
 
 typedef struct {
@@ -44,6 +45,14 @@ typedef struct {
     .type = OPTION_BOOLEAN,         \
     .short_name = (s),              \
     .long_name = (l),               \
+    .value = (v),                   \
+    .description = (h)              \
+}
+
+#define OPT_POSITIONAL(v, h) {      \
+    .type = OPTION_POSITIONAL,      \
+    .short_name = 0,                \
+    .long_name = 0,                 \
     .value = (v),                   \
     .description = (h)              \
 }

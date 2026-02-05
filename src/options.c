@@ -84,10 +84,30 @@ int parse_option_multiple_string_argument(hl_option_t option, const char* argume
 
 int parse_options(const hl_option_t options[], size_t options_length, int argc, const char** argv) {
     int amount_options_validate = 0;
+    int positional_only = 0;
 
     for (int i = 0; i < argc; i++) {
-        const char* arg = argv[i];
+        char* arg = strdup(argv[i]);
         int matched = 0;
+
+        if (!positional_only && strcmp(arg, "--") == 0) {
+            positional_only = 1;
+            goto finish_loop;
+        }
+
+        if (positional_only || arg[0] != '-') {
+            for (size_t j = 0; j < options_length; j++) {
+                if (options[j].type == OPTION_POSITIONAL) {
+                    char **ptr = (char**) options[j].value;
+                    if (!*ptr) {
+                        *ptr = arg;
+                        arg = NULL;
+                        break;
+                    }
+                }
+            }
+            goto finish_loop;
+        }
 
         if (arg[0] == '-') {
             for (size_t j = 0; j < options_length; j++) {
@@ -133,9 +153,10 @@ int parse_options(const hl_option_t options[], size_t options_length, int argc, 
             }
 
             if (!matched) die("Unknown option: %s\n", arg);
-        } else {
-            // Argumento posicional: arg
         }
+
+        finish_loop:
+            SECURE_FREE(arg);
     }
 
     return amount_options_validate;
@@ -158,6 +179,7 @@ void free_options(const hl_option_t* options, size_t options_length) {
                 }
                 SECURE_FREE(*value);
             }
+            break;
         default:
             break;
         }
