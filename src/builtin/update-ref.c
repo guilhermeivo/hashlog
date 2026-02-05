@@ -51,5 +51,5 @@ int command_update_ref(int argc, const char** argv) {
         return 0;
 }
 
-COMMAND_INFO(command_update_ref, description, "Calculate the object ID and create an object as input.")
+COMMAND_INFO(command_update_ref, description, "Updates or creates a reference, making it point to a specific hash.")
 COMMAND_INFO(command_update_ref, type, "low")

@@ -30,6 +30,7 @@ hl_command_struct_t commands[] = {
     { "log", &command_log },
     { "help", &command_help },
     { "update-ref", &command_update_ref },
+    { "show-ref", &command_show_ref },
     { "dummy", &command_dummy }
 };
 
