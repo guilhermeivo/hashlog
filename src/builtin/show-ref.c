@@ -34,5 +34,5 @@ int command_show_ref(int argc, const char** argv) {
         return 0;
 }
 
-COMMAND_INFO(command_show_ref, description, "Lê e exibe o hash associado a uma referência.")
+COMMAND_INFO(command_show_ref, description, "Reads and displays the hash associated with a reference.")
 COMMAND_INFO(command_show_ref, type, "low")
