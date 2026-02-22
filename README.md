@@ -7,7 +7,7 @@
 ## 1. Dependências
 
 ```bash
-sudo apt install libconfuse-dev
+sudo apt install libconfuse-dev help2man
 ```
 
 ## 2. Compilação
